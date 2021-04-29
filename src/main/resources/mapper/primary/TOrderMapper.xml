@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.primary.TOrderMapper">
+  <resultMap id="BaseResultMap" type="com.example.model.primary.TOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="order_qty" jdbcType="INTEGER" property="orderQty" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" typeHandler="com.example.dao.typehandler.CustomDateTypeHandler"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_by_user_id" jdbcType="INTEGER" property="createByUserId" />
+  </resultMap>
+
+  <insert id="insertOne" parameterType="com.example.model.primary.TOrder">
+    INSERT INTO `shardingsphere_jdbc_test`.`t_order` (
+        `order_no`,
+        `order_qty`,
+        `order_date`,
+        `create_time`,
+        `create_by`,
+        `create_by_user_id`
+    )
+    VALUES
+      (
+        #{orderNo},
+        #{orderQty},
+        #{orderDate, typeHandler=com.example.dao.typehandler.CustomDateTypeHandler},
+        NOW(),
+        #{createBy},
+        #{createByUserId}
+      ) ;
+  </insert>
+
+  <select id="findByQuery" parameterType="com.example.model.primary.query.TOrderQuery" resultMap="BaseResultMap">
+    SELECT
+      *
+    FROM t_order
+    <where>
+      <if test="orderNoList != null and orderNoList.size > 0">
+        order_no in
+        <foreach collection="orderNoList" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="orderDate != null and orderDate != ''">
+        AND order_date BETWEEN #{startDate} AND #{endDate}
+      </if>
+      ORDER BY order_qty DESC
+      <if test="offset != null and limit != null">
+        LIMIT #{offset}, #{limit}
+      </if>
+    </where>
+  </select>
+
+</mapper>

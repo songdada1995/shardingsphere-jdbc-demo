@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.primary.TAccountMapper">
+  <resultMap id="BaseResultMap" type="com.example.model.primary.TAccount">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="site_id" jdbcType="INTEGER" property="siteId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_by_user_id" jdbcType="INTEGER" property="createByUserId" />
+  </resultMap>
+
+  <insert id="insertOne" parameterType="com.example.model.primary.TAccount">
+    INSERT INTO `shardingsphere_jdbc_test`.`t_account` (
+      `account_name`,
+      `account_code`,
+      `area_id`,
+      `site_id`,
+      `create_time`,
+      `create_by`,
+      `create_by_user_id`
+    )
+    VALUES
+      (
+        #{accountName},
+        #{accountCode},
+        #{areaId},
+        #{siteId},
+        NOW(),
+        #{createBy},
+        #{createByUserId}
+      ) ;
+  </insert>
+
+</mapper>
